@@ -1,28 +1,38 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+  <RandomCat  @solicitandoGato="conexionApi"  :url="url"/>
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RandomCat from './components/RandomCat.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      url: ''
+    }
+  },
   components: {
-    HelloWorld
-  }
+    RandomCat
+  },
+  methods: {
+    conexionApi(solicitud){
+      fetch(`https://cataas.com/cat/gif/says/${solicitud.titulo}?filter=${solicitud.filtro}&color=${solicitud.color}&size=${solicitud.tamano}`)
+      .then(resp => {
+        console.log(resp);
+        this.url= resp.url;
+      })
+      .catch(error => console.error(error));
+
+    }
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
